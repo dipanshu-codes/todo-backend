@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose"); 
+const colors = require("@colors/colors");
 
 const verifyToken = require("./middlewares/auth.middleware.js");
 
@@ -17,6 +18,14 @@ const MONGO_URL = process.env.MONGO_URL;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(function(req, res, next) {
+  console.log();
+  console.log(`${colors.cyan(
+    `URL hit path ${colors.green.underline(`http://localhost:2121${req.path}`)} => HTTP Method: ${colors.bold.yellow(`${req.method}`)}`
+  )}`);
+  next();
+})
+
 app.use("/api", authRouter);
 app.use("/api", verifyToken, userRouter);
 app.use("/api", verifyToken, todoRouter);
@@ -25,11 +34,11 @@ app.use("/api", verifyToken, todoRouter);
 mongoose
 	.connect(MONGO_URL)
 	.then(function() {
-    console.log("⚙️Connected to DB...")
+    console.log(colors.rainbow("⚙️Connected to DB..."));
 
 		// Listen for requests
 		app.listen(PORT, function() {
-			console.log("👂Listening on port", process.env.PORT);
+			console.log(colors.white.bgBlack.bold(`👂Listening on port ${process.env.PORT}`));
 		});
 	})
 	.catch(function (error) {

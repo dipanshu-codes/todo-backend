@@ -85,7 +85,7 @@ async function login(req, res) {
     );
 
     if (isPasswordValid) {
-      console.log("😊 Credentials are correct! Logging in...");
+      console.log("✅Credentials are correct! Logging in...");
       const token = jwt.sign({ userId: userExists._id }, SECRET);
       res.status(200).json({
         msg: "Credentials are validated! Logging in...",
