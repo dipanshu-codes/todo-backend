@@ -2,6 +2,9 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose"); 
 
+const verifyToken = require("./middlewares/auth.middleware.js");
+
+const authRouter = require("./routes/auth.route.js");
 const userRouter = require("./routes/user.route.js");
 const todoRouter = require("./routes/todos.route.js");
 
@@ -14,8 +17,9 @@ const MONGO_URL = process.env.MONGO_URL;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", userRouter);
-app.use("/api", todoRouter);
+app.use("/api", authRouter);
+app.use("/api", verifyToken, userRouter);
+app.use("/api", verifyToken, todoRouter);
 
 // Connect to DB
 mongoose

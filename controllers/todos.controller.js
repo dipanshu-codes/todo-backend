@@ -1,9 +1,10 @@
 const todoModel = require("../models/todo.model.js");
 
-async function getAllTodos(req, res) {
+async function getUserTodos(req, res) {
   try {
     console.log("⚙️Inside getAllTodos...");
-    const todos = await todoModel.find();
+    const { userId } = req.body;
+    const todos = await todoModel.find({ userId });
     
     console.log("📑Searching for todos in DB...");
     if (todos.length > 0) {
@@ -46,7 +47,7 @@ async function createTodo(req, res) {
     console.log("⚙️Inside createTodo...");
     console.log("😊Getting data from body...");
     const { userId, title, description } = req.body;
-
+      
     console.log("📑Starting to create todo with given data...");
     const todo = await todoModel.create({ userId, title, description });
 
@@ -106,7 +107,7 @@ async function deleteTodo(req, res) {
 }
 
 module.exports = {
-  getAllTodos,
+  getUserTodos,
   getTodo,
   createTodo,
   updateTodo,
