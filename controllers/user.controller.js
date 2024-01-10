@@ -1,5 +1,7 @@
 const userModel = require("../models/user.model.js");
 const todoModel = require("../models/todo.model.js");
+const { updateUserSchema } = require("../schemas/userSchema.js");
+const { hashPassword } = require("../utils/hashPassword.js");
 
 async function getUser(req, res) {
   try {
@@ -24,12 +26,22 @@ async function updateUser(req, res) {
   try {
     console.log("⚙️Inside updateUser...");
     console.log("😊Getting user data from the body...");
-    const updatedData = req.body;
-    const { userId } = req.body;
+    const result = updateUserSchema.safeParse(req.body);
+  
+    if (!result.success) {
+      console.log("😤 Invalid input for creating user:", result.error.errors);
+      return res.status(400).json({ error: result.error.errors });
+    }
     
-    const user = await userModel.findOne({ _id: userId });
-    if (user) {
-      await userModel.updateOne({ _id: userId}, updatedData);
+    const user = result.data;
+    const userExists = await userModel.findOne({ _id: user.userId });
+    if (userExists) {
+      const updatedData = {
+        fullName: user.fullName,
+        email: user.email,
+        password: await hashPassword(user.password)
+      }
+      await userModel.updateOne({ _id: user.userId}, updatedData);
       console.log("✅Updated user successfully...");
       res.status(200).json({ "updatedUser": "Updated info successfully..." });
     } else {
