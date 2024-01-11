@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
   console.log();
   console.log(`${colors.cyan(
-    `URL hit path ${colors.green.underline(`http://localhost:2121${req.path}`)} => HTTP Method: ${colors.bold.yellow(`${req.method}`)}`
+    `URL hit path ${colors.green.underline(`http://localhost:${PORT}${req.path}`)} => HTTP Method: ${colors.bold.yellow(`${req.method}`)}`
   )}`);
   next();
 })
