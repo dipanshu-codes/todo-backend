@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose"); 
 const colors = require("@colors/colors");
 
+const cors = require("cors");
+
+
 const verifyToken = require("./middlewares/auth.middleware.js");
 
 const authRouter = require("./routes/auth.route.js");
@@ -14,6 +17,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 const MONGO_URL = process.env.MONGO_URL;
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
