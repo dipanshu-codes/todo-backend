@@ -9,7 +9,7 @@ function verifyToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (!token) {
-    res.status(401).json({ "msg": "Unauthorized..." });
+    return res.status(401).json({ "msg": "Unauthorized..." });
   }
 
   jwt.verify(token, SECRET, function(error, decoded) {
