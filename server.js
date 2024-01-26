@@ -6,10 +6,7 @@ const colors = require("@colors/colors");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "https://todos-frontend-reactjs.vercel.app",
-  ], // Vercel domain
+  origin: ["http://localhost:5173", "https://todosfrontend.vercel.app/"], // Vercel domain
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
