@@ -12,7 +12,7 @@ function verifyToken(req, res, next) {
     return res.status(401).json({ msg: "Unauthorized..." });
   }
 
-  const decoded = jwt.verify(token, SECRET)
+  const decoded = jwt.verify(token, SECRET);
   if (!decoded) {
     return res.status(401).json({ msg: "Unauthorized..." });
   }
