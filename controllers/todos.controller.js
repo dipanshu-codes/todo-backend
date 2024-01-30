@@ -49,10 +49,11 @@ async function createTodo(req, res) {
   try {
     console.log("⚙️Inside createTodo...");
     console.log("😊Getting data from body...");
+    console.log(req.body);
     const result = createTodoSchema.safeParse(req.body);
 
     if (!result.success) {
-      console.log("😤 Invalid input for creating user:", result.error.errors);
+      console.log("😤 Invalid input for creating todo:", result.error.errors);
       return res.status(400).json({ error: result.error.errors });
     }
 
